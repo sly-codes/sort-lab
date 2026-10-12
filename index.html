@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Sort Lab</title>
+    <meta name="description" content="Watch sorting algorithms work, one operation at a time." />
+    <meta name="theme-color" content="#0a0b0a" />
+    <link rel="stylesheet" href="style.css" />
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.11.13/lib/p5.min.js" defer></script>
+    <script type="module" src="js/main.js"></script>
+  </head>
+  <body>
+    <header class="header">
+      <div class="brand">
+        <h1 class="wordmark">SORT <span>LAB</span></h1>
+        <span class="tag">Algorithm playground</span>
+      </div>
+      <p class="status" id="status" data-state="idle"><i aria-hidden="true"></i><span id="status-text">Ready</span></p>
+      <div class="header__actions">
+        <button class="btn" type="button" id="sound" aria-pressed="false" title="Play a short tone for each operation">
+          Sound off
+        </button>
+        <button class="btn" type="button" data-action="reset" title="Back to the default settings with a new array">
+          Reset
+        </button>
+      </div>
+    </header>
+
+    <main class="app">
+      <section class="lab" aria-label="Visualization">
+        <div class="stage" id="stage" role="img" aria-label="Bars representing the array being sorted"></div>
+
+        <div class="transport">
+          <button class="btn btn--accent" type="button" id="play" title="Start, pause or resume (Space)">Start</button>
+          <button class="btn" type="button" id="step" title="Advance exactly one operation (Right arrow)">Step forward</button>
+          <button class="btn" type="button" id="restart" title="Back to the starting arrangement of this run (R)">
+            Restart
+          </button>
+          <label class="speed">
+            <span>Speed</span>
+            <input type="range" id="speed" min="1" max="100" step="1" aria-label="Animation speed" />
+            <output id="speed-out"></output>
+          </label>
+        </div>
+
+        <div class="now">
+          <span class="now__label">Now</span>
+          <p id="explain" aria-live="polite"></p>
+        </div>
+
+        <ul class="legend" aria-label="Color legend">
+          <li><i style="--c: #3f4a42"></i>Unsorted</li>
+          <li><i style="--c: #ffb224"></i>Comparing</li>
+          <li><i style="--c: #ff3d81"></i>Swapping or writing</li>
+          <li><i style="--c: #4cc9ff"></i>Pivot</li>
+          <li><i style="--c: #b58cff"></i>Key</li>
+          <li><i style="--c: #58d66b"></i>Sorted</li>
+          <li><i class="legend__range"></i>Active range</li>
+        </ul>
+      </section>
+
+      <aside class="panel" aria-label="Controls and information">
+        <section class="group">
+          <h2>Algorithm</h2>
+          <div class="choices" role="group" aria-label="Algorithm">
+            <button class="choice" type="button" data-algorithm="bubble">Bubble</button>
+            <button class="choice" type="button" data-algorithm="insertion">Insertion</button>
+            <button class="choice" type="button" data-algorithm="quick">Quick</button>
+          </div>
+        </section>
+
+        <section class="group">
+          <h2>Array</h2>
+          <div class="field">
+            <label for="size">Size</label>
+            <output id="size-out"></output>
+            <input type="range" id="size" min="10" max="150" step="1" />
+          </div>
+          <div class="choices">
+            <button class="choice" type="button" data-arrange="shuffle" title="New random arrangement">Shuffle</button>
+            <button class="choice" type="button" data-arrange="nearly" title="Ascending, with a few elements out of place">
+              Nearly sorted
+            </button>
+            <button class="choice" type="button" data-arrange="reversed" title="Descending order">Reversed</button>
+          </div>
+        </section>
+
+        <section class="group">
+          <h2>Statistics</h2>
+          <dl class="stats">
+            <div><dt>Comparisons</dt><dd id="s-comparisons">0</dd></div>
+            <div><dt>Swaps</dt><dd id="s-swaps">0</dd></div>
+            <div><dt>Writes</dt><dd id="s-writes">0</dd></div>
+            <div><dt>Elapsed</dt><dd id="s-elapsed">0.0 s</dd></div>
+            <div><dt>Algorithm</dt><dd id="s-algorithm"></dd></div>
+            <div><dt>Array size</dt><dd id="s-size"></dd></div>
+          </dl>
+          <details class="help">
+            <summary>How these numbers are counted</summary>
+            <ul>
+              <li><b>Comparison</b>: each time the algorithm compares two values.</li>
+              <li><b>Swap</b>: each time two elements exchange positions.</li>
+              <li><b>Write</b>: each value stored into the array. A swap counts as two writes.</li>
+              <li><b>Elapsed</b>: time the animation has been running. It depends on the speed slider, not on the algorithm.</li>
+            </ul>
+            <p>The complexity below describes how the work grows with the array size. It is theory, not a measurement.</p>
+          </details>
+        </section>
+
+        <section class="group">
+          <h2 id="about-title">About</h2>
+          <p class="summary" id="summary"></p>
+          <dl class="complexity">
+            <div><dt>Best</dt><dd id="c-best"></dd></div>
+            <div><dt>Average</dt><dd id="c-average"></dd></div>
+            <div><dt>Worst</dt><dd id="c-worst"></dd></div>
+          </dl>
+          <p class="note" id="note"></p>
+        </section>
+      </aside>
+    </main>
+  </body>
+</html>
